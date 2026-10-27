@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER-OPS // HANDBOOK KONTROL TOKO</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google Fonts: Inter & Orbitron -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <!-- Highcharts -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  
+  <!-- CSS Kustom Modern Techno -->
+  <style>
+    :root {
+      --bg-core: #050b14;
+      --bg-card: rgba(13, 22, 38, 0.75);
+      --border-neon: rgba(0, 242, 254, 0.3);
+      --neon-cyan: #00f2fe;
+      --neon-blue: #4facfe;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+
+    body {
+      background-color: var(--bg-core);
+      background-image: radial-gradient(circle at 50% 0%, #0f1f3d 0%, var(--bg-core) 70%);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      padding: 15px;
+      min-height: 100vh;
+    }
+    .container-custom { max-width: 960px; margin: 0 auto; }
+    
+    .header-banner {
+      background: linear-gradient(135deg, rgba(13, 22, 38, 0.9), rgba(5, 11, 20, 0.9));
+      border: 1px solid var(--border-neon);
+      color: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+      backdrop-filter: blur(10px);
+    }
+    .header-banner h2 { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0, 242, 254, 0.4); }
+
+    .card-filter {
+      background: var(--bg-card);
+      border: 1px solid var(--border-neon);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+    }
+    .form-control-custom, .form-select-custom {
+      background-color: rgba(5, 11, 20, 0.8);
+      border: 1px solid var(--border-neon);
+      color: white;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+    .form-control-custom:focus, .form-select-custom:focus {
+      background-color: rgba(5, 11, 20, 0.95);
+      border-color: var(--neon-cyan);
+      color: white;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+    }
+    .form-select-custom option { background-color: #0d1626; color: white; }
+
+    .btn-proses {
+      background: linear-gradient(135deg, #00f2fe, #4facfe);
+      color: #050b14;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+      padding: 11px 24px;
+      transition: all 0.3s;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+    }
+    .btn-proses:hover {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+      transform: translateY(-1px);
+    }
+    
+    .nav-tabs-custom {
+      display: flex;
+      background: rgba(13, 22, 38, 0.8);
+      border: 1px solid var(--border-neon);
+      padding: 6px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      gap: 4px;
+      overflow-x: auto;
+      backdrop-filter: blur(10px);
+    }
+    .nav-tabs-custom::-webkit-scrollbar { display: none; }
+    .nav-link-custom {
+      flex: 1; text-align: center; padding: 10px 14px; color: var(--text-muted); font-weight: 600; font-size: 0.85rem; border-radius: 8px; text-decoration: none; transition: all 0.2s ease; cursor: pointer; white-space: nowrap; font-family: 'Orbitron', sans-serif; letter-spacing: 0.5px;
+    }
+    .nav-link-custom.active {
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(79, 172, 254, 0.2));
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+    }
+
+    .matrix-section {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-neon);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+    }
+    .section-title {
+      font-size: 1rem; font-weight: 700; color: white; margin-bottom: 6px; display: flex; flex-direction: column; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;
+    }
+    .section-title-text { display: flex; align-items: center; }
+    .section-subtitle-date { font-size: 0.78rem; font-weight: 500; color: var(--neon-cyan); margin-left: 17px; margin-top: 2px; text-transform: none; font-family: 'Inter', sans-serif; }
+    .sub-section-title {
+      font-size: 0.82rem; font-weight: 700; color: var(--neon-cyan); margin-bottom: 12px; margin-top: 12px; text-transform: uppercase; letter-spacing: 1px; border-left: 3px solid var(--neon-cyan); padding-left: 8px; font-family: 'Orbitron', sans-serif;
+    }
+    .section-dot { width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; flex-shrink: 0; box-shadow: 0 0 8px currentColor; }
+    
+    .matrix-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .matrix-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media (max-width: 576px) { .matrix-grid-4 { grid-template-columns: repeat(2, 1fr); } }
+
+    .matrix-box {
+      background: rgba(5, 11, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 10px;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .matrix-box:hover { border-color: var(--neon-cyan); transform: translateY(-2px); box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); }
+    .matrix-title {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px; padding-bottom: 4px; color: var(--text-muted); border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .matrix-value { font-size: 1.1rem; font-weight: 800; word-break: break-word; font-family: 'Orbitron', sans-serif; color: white; }
+
+    /* Techno Palette Overrides */
+    .c-target { border-color: rgba(59, 130, 246, 0.4); color: #60a5fa; }
+    .c-actual { border-color: rgba(16, 185, 129, 0.4); color: #34d399; }
+    .c-ach { border-color: rgba(236, 72, 153, 0.4); color: #f472b6; }
+    .c-qty { border-color: rgba(249, 115, 22, 0.4); color: #fb923c; }
+    .c-tx { border-color: rgba(139, 92, 246, 0.4); color: #a78bfa; }
+    .c-tfk { border-color: rgba(20, 184, 166, 0.4); color: #2dd4bf; }
+    .c-upt { border-color: rgba(234, 179, 8, 0.4); color: #facc15; }
+    .c-atv { border-color: rgba(34, 197, 94, 0.4); color: #4ade80; }
+    .c-scr { border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
+    
+    .c-ly-base, .c-lm-base { border-color: rgba(148, 163, 184, 0.3); color: #cbd5e1; }
+
+    .bg-status-green { background-color: rgba(16, 185, 129, 0.15) !important; border-color: #10b981 !important; color: #34d399 !important; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+    .bg-status-red { background-color: rgba(239, 68, 68, 0.15) !important; border-color: #ef4444 !important; color: #f87171 !important; box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
+    .bg-status-yellow { background-color: rgba(245, 158, 11, 0.15) !important; border-color: #f59e0b !important; color: #fbbf24 !important; box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
+
+    .chart-box { width: 100%; height: 350px; margin-bottom: 20px; border-radius: 12px; background: rgba(5, 11, 20, 0.5); padding: 10px; border: 1px solid rgba(255, 255, 255, 0.05); }
+
+    #loadingOverlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 11, 20, 0.85); backdrop-filter: blur(8px); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;
+    }
+    .loader-box { background: var(--bg-card); border: 1px solid var(--border-neon); padding: 30px 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 30px rgba(0, 242, 254, 0.3); }
+
+    .profile-card-container { display: flex; flex-wrap: wrap; gap: 20px; background: rgba(5, 11, 20, 0.6); padding: 15px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08); }
+    .profile-photo-box { flex: 1 1 300px; max-width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-neon); display: flex; align-items: center; justify-content: center; background: #000; }
+    .profile-photo-box img { width: 100%; height: auto; max-height: 250px; object-fit: cover; }
+    .profile-info-box { flex: 2 1 350px; }
+    .profile-table { width: 100%; border-collapse: collapse; }
+    .profile-table th, .profile-table td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 13px; }
+    .profile-table th { width: 30%; color: var(--neon-cyan); background: rgba(13, 22, 38, 0.8); font-weight: 600; font-family: 'Orbitron', sans-serif; font-size: 11px; }
+    .profile-table td { color: var(--text-main); }
+
+    .org-chart-wrapper { display: flex; flex-direction: column; align-items: center; background: rgba(5, 11, 20, 0.6); padding: 30px 10px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08); overflow-x: auto; }
+    .org-level { width: 100%; display: flex; justify-content: center; }
+    .org-group { display: flex; gap: 20px; justify-content: center; width: 100%; }
+    .org-group.row-flex { flex-direction: row; flex-wrap: wrap; }
+    .org-line { width: 2px; height: 20px; background: var(--neon-cyan); margin: 5px 0; box-shadow: 0 0 8px var(--neon-cyan); }
+    
+    .org-card { position: relative; background: rgba(13, 22, 38, 0.9); border: 1px solid var(--border-neon); border-radius: 10px; padding: 12px; width: 160px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.2s ease-in-out; }
+    .org-card:hover { border-color: var(--neon-cyan); transform: translateY(-3px); box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); }
+    
+    .border-spv { border-top: 4px solid #ef4444; }
+    .border-asst { border-top: 4px solid #3b82f6; }
+    .border-cashier { border-top: 4px solid #10b981; }
+
+    .org-avatar-box { width: 65px; height: 65px; margin: 0 auto 8px auto; border-radius: 50%; overflow: hidden; border: 2px solid var(--neon-cyan); background: #000; box-shadow: 0 0 10px rgba(0, 242, 254, 0.3); }
+    .org-avatar-box img { width: 100%; height: 100%; object-fit: cover; }
+    .org-role { font-size: 10px; font-weight: bold; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Orbitron', sans-serif; }
+    .org-name { font-size: 12px; font-weight: 600; color: white; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .org-card .org-tooltip { visibility: hidden; width: 220px; background-color: rgba(5, 11, 20, 0.95); color: #fff; text-align: left; border-radius: 6px; padding: 10px 12px; position: absolute; z-index: 99; bottom: 105%; left: 50%; transform: translateX(-50%); border: 1px solid var(--neon-cyan); box-shadow: 0 0 20px rgba(0,0,0,0.8); opacity: 0; transition: opacity 0.3s; font-size: 11px; pointer-events: none; }
+    .org-card .org-tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: var(--neon-cyan) transparent transparent transparent; }
+    .org-card:hover .org-tooltip { visibility: visible; opacity: 1; }
+    .tooltip-line { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 2px; }
+    .tooltip-line:last-child { margin-bottom: 0; border-bottom: none; }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loadingOverlay">
+    <div class="loader-box">
+      <div class="spinner-border text-info mb-3" role="status"></div>
+      <h5 class="fw-bold text-white font-monospace" style="font-family: 'Orbitron', sans-serif; font-size: 1rem;">SYNCHRONIZING DATA...</h5>
+      <p class="text-muted small mb-0">ESTIMATED TIME: <span id="timerCount" class="fw-bold text-info">5</span>s</p>
+    </div>
+  </div>
+
+  <div class="container-custom">
+    <!-- Header Banner -->
+    <div class="header-banner">
+      <h2 class="fw-bold mb-1">CYBER-OPS // KONTROL TOKO</h2>
+      <p class="text-muted small mb-0 font-monospace">ADVANCED STORE MONITORING & ANALYTICS INTERFACE</p>
+    </div>
+
+    <!-- Card Filter & Pilihan Toko -->
+    <div class="card-filter">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label fw-bold text-muted small font-monospace">SELECT STORE</label>
+          <select id="selectToko" class="form-select form-select-custom">
+            <option value="">-- PILIH TOKO --</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold text-muted small font-monospace">START DATE</label>
+          <input type="date" id="tglAwal" class="form-control form-control-custom">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold text-muted small font-monospace">END DATE</label>
+          <input type="date" id="tglAkhir" class="form-control form-control-custom">
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-proses w-100 shadow-sm" onclick="prosesData()">
+            <i class="bi bi-cpu me-1"></i> EXECUTE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigasi Menu Tab -->
+    <div class="nav-tabs-custom" id="navTabsContainer">
+      <a class="nav-link-custom active" id="tab-home" onclick="gantiMenu('home')"><i class="bi bi-terminal me-1"></i> HOME</a>
+      <a class="nav-link-custom" id="tab-daily" onclick="gantiMenu('daily')"><i class="bi bi-calendar-day me-1"></i> DAILY</a>
+      <a class="nav-link-custom" id="tab-weekly" onclick="gantiMenu('weekly')"><i class="bi bi-calendar-week me-1"></i> WEEKLY</a>
+      <a class="nav-link-custom" id="tab-monthly" onclick="gantiMenu('monthly')"><i class="bi bi-calendar-month me-1"></i> MONTHLY</a>
+      <a class="nav-link-custom" id="tab-yearly" onclick="gantiMenu('yearly')"><i class="bi bi-calendar-range me-1"></i> YEARLY</a>
+      <a class="nav-link-custom" id="tab-projection" onclick="gantiMenu('projection')"><i class="bi bi-graph-up-arrow me-1"></i> PROJECTION</a>
+      <a class="nav-link-custom" id="tab-profil" onclick="gantiMenu('profil')"><i class="bi bi-shield-shaded me-1"></i> PROFILE</a>
+    </div>
+
+    <!-- Area Konten Utama Laporan -->
+    <div id="areaReport" class="d-none">
+      <div class="alert bg-card border border-info shadow-sm mb-4 d-flex justify-content-between align-items-center text-white" style="background: var(--bg-card); backdrop-filter: blur(10px);">
+        <div>
+          <span class="text-muted small text-uppercase font-monospace">TARGET NODE ACTIVE:</span>
+          <h4 id="txtNamaToko" class="fw-bold text-info mb-0" style="font-family: 'Orbitron', sans-serif;">-</h4>
+        </div>
+        <i class="bi bi-cpu-fill text-info fs-2"></i>
+      </div>
+
+      <!-- HOME PROFIL -->
+      <div id="blokStatisToko">
+        <div class="matrix-section">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#00f2fe; color:#00f2fe;"></span> STORE METRICS</div></div>
+          <div class="matrix-grid" id="gridProfil"></div>
+        </div>
+        <div class="matrix-section">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#10b981; color:#10b981;"></span> RECEIVING MATRIX</div></div>
+          <div class="matrix-grid" id="gridReceiving"></div>
+        </div>
+        <div class="matrix-section">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#f59e0b; color:#f59e0b;"></span> KEEP STOCK MATRIX</div></div>
+          <div class="matrix-grid" id="gridKeepStock"></div>
+        </div>
+      </div>
+
+      <!-- UTAMA REPORT & GRAFIK -->
+      <div id="blokReportUtama" class="d-none">
+        <div class="matrix-section">
+          <div class="section-title">
+            <div class="section-title-text"><span class="section-dot" style="background:#ec4899; color:#ec4899;"></span> SALES PERFORMANCE TELEMETRY (<span id="txtLabelMenu">HOME</span>)</div>
+            <div class="section-subtitle-date" id="dateSalesUtama"></div>
+          </div>
+          <div class="sub-section-title">SALES METRICS</div>
+          <div class="matrix-grid" id="subSalesUtama"></div>
+          <div class="sub-section-title">UPT & ATV MATRIX</div>
+          <div class="matrix-grid" id="subUptAtvUtama"></div>
+        </div>
+
+        <div class="matrix-section d-none" id="sectionWoW">
+          <div class="section-title">
+            <div class="section-title-text"><span class="section-dot" style="background:#f43f5e; color:#f43f5e;"></span> SSSG - WOW TELEMETRY (VS LAST WEEK)</div>
+            <div class="section-subtitle-date" id="dateSalesWoW"></div>
+          </div>
+          <div class="sub-section-title">SALES</div>
+          <div class="matrix-grid" id="subSalesWoW"></div>
+          <div class="sub-section-title">UPT & ATV</div>
+          <div class="matrix-grid" id="subUptAtvWoW"></div>
+        </div>
+
+        <div class="matrix-section" id="sectionMoM">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#06b6d4; color:#06b6d4;"></span> SSSG - MOM TELEMETRY (VS LAST MONTH)</div></div>
+          <div class="sub-section-title">SALES</div>
+          <div class="matrix-grid" id="subSalesMoM"></div>
+          <div class="sub-section-title">UPT & ATV</div>
+          <div class="matrix-grid" id="subUptAtvMoM"></div>
+        </div>
+
+        <div class="matrix-section" id="sectionYoY">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#8b5cf6; color:#8b5cf6;"></span> SSSG - YOY TELEMETRY (VS LAST YEAR)</div></div>
+          <div class="sub-section-title">SALES</div>
+          <div class="matrix-grid" id="subSalesYoY"></div>
+          <div class="sub-section-title">UPT & ATV</div>
+          <div class="matrix-grid" id="subUptAtvYoY"></div>
+        </div>
+
+        <div class="matrix-section" id="sectionGrafik">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#64748b; color:#64748b;"></span> VISUALIZATION GRAPHS</div></div>
+          <div id="chartTargetContainer" class="chart-box"></div>
+          <div id="chartWoWContainer" class="chart-box" style="display: none;"></div>
+          <div id="chartMoMContainer" class="chart-box"></div>
+          <div id="chartYoYContainer" class="chart-box"></div>
+        </div>
+      </div>
+
+      <!-- PROJECTION -->
+      <div id="blokProjection" class="d-none">
+        <div class="matrix-section">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#00f2fe; color:#00f2fe;"></span> SUMMARY AREA ACHIEVEMENTS</div></div>
+          <div class="matrix-grid-4" id="projRow1"></div>
+          <div class="matrix-grid-4" id="projRow2"></div>
+          <div class="matrix-grid-4" id="projRow3"></div>
+          <div class="matrix-grid-4" id="projRow4"></div>
+          <div class="matrix-grid-4" id="projRow5"></div>
+        </div>
+      </div>
+
+      <!-- PROFIL -->
+      <div id="blokProfilToko" class="d-none">
+        <div class="matrix-section">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#0284c7; color:#0284c7;"></span> NODE PROFILE SPECIFICATION</div></div>
+          <div class="profile-card-container">
+            <div class="profile-photo-box">
+              <img id="imgProfilToko" src="" alt="Foto Toko" onerror="this.src='https://placehold.co/600x400/050b14/00f2fe?text=NO+IMAGE'">
+            </div>
+            <div class="profile-info-box">
+              <table class="profile-table">
+                <tr><th>Store Name</th><td id="tdNamaToko">-</td></tr>
+                <tr><th>Opening Date</th><td id="tdTglOpening">-</td></tr>
+                <tr><th>Location Address</th><td id="tdAlamat">-</td></tr>
+                <tr><th>GPS Coordinates</th><td id="tdKoordinat">-</td></tr>
+                <tr>
+                  <td colspan="3" class="pt-2">
+                    <button type="button" id="btnGoogleReview" class="btn btn-outline-info btn-sm w-100 fw-bold font-monospace shadow-sm" onclick="bukaGoogleReview()">
+                      <i class="bi bi-star-fill me-1"></i> ACCESS GOOGLE REVIEW
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="matrix-section" style="margin-top: 25px;">
+          <div class="section-title"><div class="section-title-text"><span class="section-dot" style="background:#10b981; color:#10b981;"></span> COMMAND HIERARCHY STRUCTURE</div></div>
+          <div class="org-chart-wrapper">
+            <div class="org-level"><div id="tier-supervisor" class="org-group single-center"></div></div>
+            <div class="org-line"></div>
+            <div class="org-level"><div id="tier-assistant" class="org-group row-flex"></div></div>
+            <div class="org-line"></div>
+            <div class="org-level"><div id="tier-cashier" class="org-group row-flex"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript Logika & Highcharts Tema Techno -->
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyd88g9t79TLPHyNhldavv2jDGyNPjfkrTQZouu9RkNdgR_Vk54PGf_wbM7bGE6VPq6/exec";
+
+    let timerInterval; let secondsLeft = 5; let serverResponseData = null; let menuAktif = "home";
+
+    const groupProfil = ["STORE", "DISPLAY AREA (SQFT)", "RECEIVING FLOOR AREA (SQFT)", "STORE VALUE PER DISPLAY"];
+    const groupReceiving = ["SALES LAST WEEK", "RCV LAST WEEK", "PHY STOCK LEVEL (%)", "SYS STOCK LEVEL (%)"];
+    const groupKeepStock = ["TOTAL KEEPBOX", "TOTAL SKU", "TOTAL QTY"];
+    
+    function dapatkanKelasWarnaIndivid(key, val) {
+      if (val === '-' || val === null || val === undefined) return 'c-ly-base';
+      if (key.includes("GROWTH") || key.includes("ACHIEVEMENT") || key === "SCR" || key === "TIME GONE") {
+        let persen = parseFloat(val.toString().replace(/[^0-9.-]+/g, ""));
+        if (isNaN(persen)) return 'c-ly-base';
+        if (key.includes("GROWTH")) return persen >= 0 ? 'bg-status-green' : 'bg-status-red';
+        if (persen >= 100) return 'bg-status-green';
+        if (persen >= 90) return 'bg-status-yellow';
+        return 'bg-status-red';
+      }
+      const mapWarna = {
+        "TARGET": "c-target", "ACTUAL": "c-actual", "ACHIEVEMENT": "c-ach", "MTD TARGET": "c-target", "MTD SALES": "c-actual",
+        "QTY SOLD": "c-qty", "TRANSAKSI": "c-tx", "TRAFIK": "c-tfk", "RUN RATE": "c-qty",
+        "UPT": "c-upt", "ATV": "c-atv", "SCR": "c-scr", "REAL DAILY TARGET": "c-upt", "AVG SALES": "c-atv"
+      };
+      if (mapWarna[key]) return mapWarna[key];
+      if (key.includes("TARGET") || key.includes("LV")) return 'c-target';
+      if (key.includes("PROJECTION") || key.includes("HIT")) return 'c-lm-base';
+      return 'c-ly-base';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const hariIni = new Date().toISOString().split('T')[0];
+      document.getElementById('tglAwal').value = hariIni; 
+      document.getElementById('tglAkhir').value = hariIni;
+      
+      fetch(`${GAS_URL}?action=getDaftarToko`)
+        .then(res => res.json())
+        .then(data => populateDropdown(data))
+        .catch(err => console.error('Gagal mengambil daftar toko:', err));
+    });
+
+    function populateDropdown(daftarToko) {
+      const select = document.getElementById('selectToko');
+      daftarToko.forEach(toko => {
+        let opt = document.createElement('option'); 
+        opt.value = toko; opt.innerHTML = toko; select.appendChild(opt);
+      });
+    }
+
+    function prosesData() {
+      const namaToko = document.getElementById('selectToko').value;
+      const tglAwal = document.getElementById('tglAwal').value;
+      const tglAkhir = document.getElementById('tglAkhir').value;
+      if (!namaToko) { alert("Silakan pilih Toko terlebih dahulu!"); return; }
+      if (!tglAwal || !tglAkhir) { alert("Silakan lengkapi tanggal!"); return; }
+      
+      startLoading();
+      const targetUrl = `${GAS_URL}?action=prosesPilihToko&namaToko=${encodeURIComponent(namaToko)}&tglAwal=${tglAwal}&tglAkhir=${tglAkhir}`;
+
+      fetch(targetUrl)
+        .then(res => res.json())
+        .then(response => { serverResponseData = response; cekApakahBisaTampil(); })
+        .catch(err => { stopLoading(); alert('Gagal memproses data: ' + err); });
+    }
+
+    function startLoading() {
+      serverResponseData = null; secondsLeft = 5;
+      document.getElementById('timerCount').innerText = secondsLeft;
+      document.getElementById('loadingOverlay').style.display = 'flex';
+      timerInterval = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft <= 0) { document.getElementById('timerCount').innerText = "0"; cekApakahBisaTampil(); }
+        else { document.getElementById('timerCount').innerText = secondsLeft; }
+      }, 1000);
+    }
+
+    function cekApakahBisaTampil() { if (secondsLeft <= 0 && serverResponseData !== null) { stopLoading(); renderReportDashboard(); } }
+    function stopLoading() { clearInterval(timerInterval); document.getElementById('loadingOverlay').style.display = 'none'; }
+
+    function gantiMenu(targetMenu) {
+      document.querySelectorAll('.nav-link-custom').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + targetMenu).classList.add('active');
+      menuAktif = targetMenu;
+      if (serverResponseData) { renderReportDashboard(); }
+    }
+
+    function formatValue(key, value) {
+      if (value === null || value === undefined || value === '-') return '-';
+      if (key.includes("LEVEL") || key.includes("HIT") || key.includes("HARI") || key.includes("%") || key.includes("ACHIEVEMENT") || key === "SCR" || key.includes("UPT") || key.includes("GROWTH") || key === "TIME GONE") return value;
+      let cleanNum = Number(value.toString().replace(/[^0-9.-]+/g, ""));
+      if (!isNaN(cleanNum)) return Math.round(cleanNum).toLocaleString('id-ID');
+      return value;
+    }
+
+    function createBoxElement(key, label, value) {
+      let formattedValue = formatValue(key, value);
+      let kelasWarna = dapatkanKelasWarnaIndivid(key, value);
+      let box = document.createElement('div');
+      box.className = `matrix-box ${kelasWarna}`;
+      box.innerHTML = `<div class="matrix-title" title="${label}">${label}</div><div class="matrix-value">${formattedValue}</div>`;
+      return box;
+    }
+
+    function renderSplitCharts(cData) {
+      Highcharts.chart('chartTargetContainer', {
+        chart: { backgroundColor: 'transparent' },
+        title: { text: 'TARGET TY VS ACTUAL TY', style: { color: '#00f2fe', fontSize: '13px', fontFamily: 'Orbitron' } },
+        xAxis: { categories: cData.categories, labels: { style: { color: '#94a3b8' } } },
+        yAxis: [{ title: { text: 'Sales (Rp)', style: { color: '#94a3b8' } }, gridLineColor: 'rgba(255,255,255,0.05)' }, { title: { text: 'Achievement (%)', style: { color: '#94a3b8' } }, opposite: true, gridLineColor: 'transparent' }],
+        tooltip: { shared: true, backgroundColor: '#050b14', style: { color: '#fff' } },
+        series: [
+          { name: 'Target TY', type: 'column', data: cData.targetSeries, color: '#3b82f6' },
+          { name: 'Actual TY', type: 'column', data: cData.actualSeries, color: '#10b981' },
+          { name: 'Achievement', type: 'spline', yAxis: 1, data: cData.achSeries, color: '#ec4899', marker: { enabled: true } }
+        ],
+        credits: { enabled: false }
+      });
+
+      if (menuAktif === 'weekly') {
+        document.getElementById('chartWoWContainer').style.display = 'block';
+        Highcharts.chart('chartWoWContainer', {
+          chart: { type: 'column', backgroundColor: 'transparent' },
+          title: { text: 'WEEKLY TELEMETRY: THIS WEEK VS LAST WEEK', style: { color: '#00f2fe', fontSize: '13px', fontFamily: 'Orbitron' } },
+          xAxis: { categories: cData.categories, labels: { style: { color: '#94a3b8' } } },
+          yAxis: { title: { text: 'Sales (Rp)', style: { color: '#94a3b8' } }, gridLineColor: 'rgba(255,255,255,0.05)' },
+          tooltip: { shared: true, backgroundColor: '#050b14', style: { color: '#fff' } },
+          series: [
+            { name: 'Actual Current (TY)', data: cData.actualSeries, color: '#10b981' },
+            { name: 'Actual Last Week (LW)', data: cData.actualLWSeries, color: '#f43f5e' }
+          ],
+          credits: { enabled: false }
+        });
+      } else {
+        document.getElementById('chartWoWContainer').style.display = 'none';
+      }
+
+      if (menuAktif === 'home' || menuAktif === 'yearly') {
+        document.getElementById('chartYoYContainer').style.display = 'none';
+        Highcharts.chart('chartMoMContainer', {
+          chart: { type: 'column', backgroundColor: 'transparent' },
+          title: { text: 'YOY TELEMETRY: TY VS LY', style: { color: '#00f2fe', fontSize: '13px', fontFamily: 'Orbitron' } },
+          xAxis: { categories: cData.categories, labels: { style: { color: '#94a3b8' } } },
+          yAxis: { title: { text: 'Sales (Rp)', style: { color: '#94a3b8' } }, gridLineColor: 'rgba(255,255,255,0.05)' },
+          tooltip: { shared: true, backgroundColor: '#050b14', style: { color: '#fff' } },
+          series: [
+            { name: 'Actual TY', data: cData.actualSeries, color: '#10b981' },
+            { name: 'Actual LY', data: cData.actualLYSeries, color: '#94a3b8' }
+          ],
+          credits: { enabled: false }
+        });
+      } else {
+        document.getElementById('chartYoYContainer').style.display = 'block';
+        Highcharts.chart('chartMoMContainer', {
+          chart: { type: 'column', backgroundColor: 'transparent' },
+          title: { text: 'MOM TELEMETRY: TY VS LM', style: { color: '#00f2fe', fontSize: '13px', fontFamily: 'Orbitron' } },
+          xAxis: { categories: cData.categories, labels: { style: { color: '#94a3b8' } } },
+          yAxis: { title: { text: 'Sales (Rp)', style: { color: '#94a3b8' } }, gridLineColor: 'rgba(255,255,255,0.05)' },
+          tooltip: { shared: true, backgroundColor: '#050b14', style: { color: '#fff' } },
+          series: [
+            { name: 'Actual TY', data: cData.actualSeries, color: '#10b981' },
+            { name: 'Actual LM', data: cData.actualLMSeries, color: '#f97316' }
+          ],
+          credits: { enabled: false }
+        });
+
+        Highcharts.chart('chartYoYContainer', {
+          chart: { type: 'column', backgroundColor: 'transparent' },
+          title: { text: 'YOY TELEMETRY: TY VS LY', style: { color: '#00f2fe', fontSize: '13px', fontFamily: 'Orbitron' } },
+          xAxis: { categories: cData.categories, labels: { style: { color: '#94a3b8' } } },
+          yAxis: { title: { text: 'Sales (Rp)', style: { color: '#94a3b8' } }, gridLineColor: 'rgba(255,255,255,0.05)' },
+          tooltip: { shared: true, backgroundColor: '#050b14', style: { color: '#fff' } },
+          series: [
+            { name: 'Actual TY', data: cData.actualSeries, color: '#10b981' },
+            { name: 'Actual LY', data: cData.actualLYSeries, color: '#94a3b8' }
+          ],
+          credits: { enabled: false }
+        });
+      }
+    }
+
+    function renderReportDashboard() {
+      const res = serverResponseData;
+      if (!res || res.status !== 'success') return;
+
+      document.getElementById('txtNamaToko').innerText = res.toko;
+      
+      document.getElementById('blokStatisToko').classList.add('d-none');
+      document.getElementById('blokReportUtama').classList.add('d-none');
+      document.getElementById('blokProjection').classList.add('d-none');
+      document.getElementById('blokProfilToko').classList.add('d-none');
+
+      if (menuAktif === 'projection') {
+        document.getElementById('blokProjection').classList.remove('d-none');
+        const pData = res.projectionData;
+        const r1 = document.getElementById('projRow1'); r1.innerHTML = '';
+        ["RUN RATE", "SISA HARI", "TOTAL HARI", "TIME GONE"].forEach(k => r1.appendChild(createBoxElement(k, pData[k].label, pData[k].value)));
+        const r2 = document.getElementById('projRow2'); r2.innerHTML = '';
+        ["TARGET LV1", "TARGET LV2", "TARGET LV3", "TARGET LV4"].forEach(k => r2.appendChild(createBoxElement(k, pData[k].label, pData[k].value)));
+        const r3 = document.getElementById('projRow3'); r3.innerHTML = '';
+        ["MTD TARGET", "MTD SALES", "MTD ACHIEVEMENT", "LEVEL ACHIEVEMENT"].forEach(k => r3.appendChild(createBoxElement(k, pData[k].label, pData[k].value)));
+        const r4 = document.getElementById('projRow4'); r4.innerHTML = '';
+        ["HIT LEVEL", "PENCAPAIAN TO HIT LEVEL", "VARIANT TO HIT LEVEL", "REAL DAILY TARGET"].forEach(k => r4.appendChild(createBoxElement(k, pData[k].label, pData[k].value)));
+        const r5 = document.getElementById('projRow5'); r5.innerHTML = '';
+        ["AVG SALES", "PROJECTION SALES", "PROJECTION HIT LEVEL", "REAL DAILY TARGET HIT"].forEach(k => r5.appendChild(createBoxElement(k, pData[k].label, pData[k].value)));
+
+      } else if (menuAktif === 'profil') {
+        document.getElementById('blokProfilToko').classList.remove('d-none');
+        const pToko = res.profilTokoBaru;
+        document.getElementById('tdNamaToko').innerText = pToko.namaToko;
+        document.getElementById('tdTglOpening').innerText = pToko.tglOpening;
+        document.getElementById('tdAlamat').innerText = pToko.alamat;
+        document.getElementById('tdKoordinat').innerText = pToko.koordinat;
+
+        let btnReview = document.getElementById('btnGoogleReview');
+        if (btnReview) { btnReview.dataset.url = pToko.linkReview || '-'; }
+        
+        if(pToko.idGambar && pToko.idGambar !== '-') {
+          document.getElementById('imgProfilToko').src = pToko.idGambar; 
+        } else {
+          document.getElementById('imgProfilToko').src = 'https://placehold.co/600x400/050b14/00f2fe?text=NO+IMAGE';
+        }
+
+        const tSpv = document.getElementById('tier-supervisor'); tSpv.innerHTML = '';
+        const tAsst = document.getElementById('tier-assistant'); tAsst.innerHTML = '';
+        const tCashier = document.getElementById('tier-cashier'); tCashier.innerHTML = '';
+
+        function buildCardKaryawan(karyawan, borderClass) {
+          let srcFoto = (karyawan.idFoto && karyawan.idFoto !== '-') ? karyawan.idFoto : 'https://placehold.co/150x150/050b14/00f2fe?text=NO+PHOTO';
+          return `
+            <div class="org-card ${borderClass}">
+              <div class="org-avatar-box"><img src="${srcFoto}" alt="Foto Karyawan"></div>
+              <div class="org-role">${karyawan.jabatan}</div>
+              <div class="org-name">${karyawan.nama}</div>
+              <div class="org-tooltip">
+                <div class="tooltip-line"><strong>NIK:</strong> ${karyawan.nik}</div>
+                <div class="tooltip-line"><strong>Name:</strong> ${karyawan.nama}</div>
+                <div class="tooltip-line"><strong>Role:</strong> ${karyawan.jabatan}</div>
+                <div class="tooltip-line"><strong>Phone:</strong> ${karyawan.noTelp}</div>
+              </div>
+            </div>
+          `;
+        }
+
+        res.karyawanList.forEach(k => {
+          if (k.jabatan === 'STORE SUPERVISOR') tSpv.innerHTML += buildCardKaryawan(k, 'border-spv');
+          else if (k.jabatan === 'STORE ASSISTANT SUPERVISOR') tAsst.innerHTML += buildCardKaryawan(k, 'border-asst');
+          else if (k.jabatan === 'CASHIER') tCashier.innerHTML += buildCardKaryawan(k, 'border-cashier');
+        });
+        
+        if(tSpv.innerHTML === '') tSpv.innerHTML = '<div style="color:#94a3b8; font-size:11px;">NODES EMPTY</div>';
+        if(tAsst.innerHTML === '') tAsst.innerHTML = '<div style="color:#94a3b8; font-size:11px;">NODES EMPTY</div>';
+        if(tCashier.innerHTML === '') tCashier.innerHTML = '<div style="color:#94a3b8; font-size:11px;">NODES EMPTY</div>';
+
+      } else {
+        document.getElementById('blokReportUtama').classList.remove('d-none');
+        document.getElementById('txtLabelMenu').innerText = menuAktif.toUpperCase();
+
+        const grids = ['subSalesUtama', 'subUptAtvUtama', 'subSalesWoW', 'subUptAtvWoW', 'subSalesMoM', 'subUptAtvMoM', 'subSalesYoY', 'subUptAtvYoY'];
+        grids.forEach(g => document.getElementById(g).innerHTML = '');
+
+        const dateSalesUtama = document.getElementById('dateSalesUtama');
+        const dateSalesWoW = document.getElementById('dateSalesWoW');
+        if (menuAktif === 'weekly') {
+          dateSalesUtama.innerText = res.currentWeeklyRangeStr || '';
+          dateSalesWoW.innerText = res.lastWeeklyRangeStr || '';
+        } else {
+          dateSalesUtama.innerText = '';
+          dateSalesWoW.innerText = '';
+        }
+
+        if (menuAktif === 'home') {
+          document.getElementById('blokStatisToko').classList.remove('d-none');
+          ['gridProfil', 'gridReceiving', 'gridKeepStock'].forEach(g => document.getElementById(g).innerHTML = '');
+          groupProfil.forEach(k => document.getElementById('gridProfil').appendChild(createBoxElement(k, res.profilData[k].label, res.profilData[k].value)));
+          groupReceiving.forEach(k => document.getElementById('gridReceiving').appendChild(createBoxElement(k, res.profilData[k].label, res.profilData[k].value)));
+          groupKeepStock.forEach(k => document.getElementById('gridKeepStock').appendChild(createBoxElement(k, res.profilData[k].label, res.profilData[k].value)));
+        }
+
+        if (menuAktif === 'weekly') { document.getElementById('sectionWoW').classList.remove('d-none'); } 
+        else { document.getElementById('sectionWoW').classList.add('d-none'); }
+
+        if (menuAktif === 'yearly' || menuAktif === 'home') {
+          document.getElementById('sectionMoM').classList.add('d-none');
+          document.getElementById('sectionYoY').classList.remove('d-none');
+        } else {
+          document.getElementById('sectionMoM').classList.remove('d-none');
+          document.getElementById('sectionYoY').classList.remove('d-none');
+        }
+
+        const dm = res.menuReports[menuAktif];
+
+        document.getElementById('subSalesUtama').appendChild(createBoxElement("TARGET", "Target", dm.metrics["TARGET"]));
+        document.getElementById('subSalesUtama').appendChild(createBoxElement("ACTUAL", "Actual", dm.metrics["ACTUAL"]));
+        document.getElementById('subSalesUtama').appendChild(createBoxElement("ACHIEVEMENT", "Achievement", dm.metrics["ACHIEVEMENT"]));
+        document.getElementById('subSalesUtama').appendChild(createBoxElement("QTY SOLD", "Qty Sold", dm.metrics["QTY SOLD"]));
+        document.getElementById('subSalesUtama').appendChild(createBoxElement("TRANSAKSI", "Transaksi", dm.metrics["TRANSAKSI"]));
+        document.getElementById('subSalesUtama').appendChild(createBoxElement("TRAFIK", "Trafik", dm.metrics["TRAFIK"]));
+
+        document.getElementById('subUptAtvUtama').appendChild(createBoxElement("UPT", "UPT", dm.metrics["UPT"]));
+        document.getElementById('subUptAtvUtama').appendChild(createBoxElement("ATV", "ATV", dm.metrics["ATV"]));
+        document.getElementById('subUptAtvUtama').appendChild(createBoxElement("SCR", "SCR", dm.metrics["SCR"]));
+
+        if (menuAktif === 'weekly' && dm.wowMetrics) {
+          var sW = document.getElementById('subSalesWoW');
+          sW.appendChild(createBoxElement("ACTUAL", "Actual TY", dm.sssgMetrics["ACTUAL"]));
+          sW.appendChild(createBoxElement("ACTUAL LW", "Actual LW", dm.wowMetrics["ACTUAL LW"]));
+          sW.appendChild(createBoxElement("GROWTH SALES LW", "Growth Sales (WoW)", dm.wowMetrics["GROWTH SALES LW"]));
+          sW.appendChild(createBoxElement("QTY SOLD", "Qty Sold TY", dm.sssgMetrics["QTY SOLD"]));
+          sW.appendChild(createBoxElement("QTY SOLD LW", "Qty Sold LW", dm.wowMetrics["QTY SOLD LW"]));
+          sW.appendChild(createBoxElement("TRANSAKSI", "Transaksi TY", dm.sssgMetrics["TRANSAKSI"]));
+          sW.appendChild(createBoxElement("TRANSAKSI LW", "Transaksi LW", dm.wowMetrics["TRANSAKSI LW"]));
+          sW.appendChild(createBoxElement("TRAFIK", "Trafik TY", dm.metrics["TRAFIK"]));
+          sW.appendChild(createBoxElement("TRAFIK LW", "Trafik LW", dm.wowMetrics["TRAFIK LW"]));
+
+          var uW = document.getElementById('subUptAtvWoW');
+          uW.appendChild(createBoxElement("UPT", "UPT TY", dm.sssgMetrics["UPT"]));
+          uW.appendChild(createBoxElement("UPTLW", "UPT LW", dm.wowMetrics["UPTLW"]));
+          uW.appendChild(createBoxElement("GROWTH UPT LW", "Growth UPT (WoW)", dm.wowMetrics["GROWTH UPT LW"]));
+          uW.appendChild(createBoxElement("ATV", "ATV TY", dm.sssgMetrics["ATV"]));
+          uW.appendChild(createBoxElement("ATV LW", "ATV LW", dm.wowMetrics["ATV LW"]));
+          uW.appendChild(createBoxElement("GROWTH ATV LW", "Growth ATV (WoW)", dm.wowMetrics["GROWTH ATV LW"]));
+        }
+
+        if (menuAktif !== 'home' && menuAktif !== 'yearly') {
+          var sM = document.getElementById('subSalesMoM');
+          sM.appendChild(createBoxElement("ACTUAL", "Actual TY", dm.sssgMetrics["ACTUAL"]));
+          sM.appendChild(createBoxElement("ACTUAL LM", "Actual LM", dm.sssgMetrics["ACTUAL LM"]));
+          sM.appendChild(createBoxElement("GROWTH SALES LM", "Growth Sales (MoM)", dm.sssgMetrics["GROWTH SALES LM"]));
+          sM.appendChild(createBoxElement("QTY SOLD", "Qty Sold TY", dm.sssgMetrics["QTY SOLD"]));
+          sM.appendChild(createBoxElement("QTY SOLD LM", "Qty Sold LM", dm.sssgMetrics["QTY SOLD LM"]));
+          sM.appendChild(createBoxElement("TRANSAKSI", "Transaksi TY", dm.sssgMetrics["TRANSAKSI"]));
+          sM.appendChild(createBoxElement("TRANSAKSI LM", "Transaksi LM", dm.sssgMetrics["TRANSAKSI LM"]));
+          sM.appendChild(createBoxElement("TRAFIK", "Trafik TY", dm.metrics["TRAFIK"]));
+          sM.appendChild(createBoxElement("TRAFIK LM", "Trafik LM", dm.sssgMetrics["TRAFIK LM"]));
+
+          var uM = document.getElementById('subUptAtvMoM');
+          uM.appendChild(createBoxElement("UPT", "UPT TY", dm.sssgMetrics["UPT"]));
+          uM.appendChild(createBoxElement("UPTLM", "UPT LM", dm.sssgMetrics["UPTLM"]));
+          uM.appendChild(createBoxElement("GROWTH UPT LM", "Growth UPT (MoM)", dm.sssgMetrics["GROWTH UPT LM"]));
+          uM.appendChild(createBoxElement("ATV", "ATV TY", dm.sssgMetrics["ATV"]));
+          uM.appendChild(createBoxElement("ATV LM", "ATV LM", dm.sssgMetrics["ATV LM"]));
+          uM.appendChild(createBoxElement("GROWTH ATV LM", "Growth ATV (MoM)", dm.sssgMetrics["GROWTH ATV LM"]));
+        }
+
+        var sY = document.getElementById('subSalesYoY');
+        sY.appendChild(createBoxElement("ACTUAL", "Actual TY", dm.sssgMetrics["ACTUAL"]));
+        sY.appendChild(createBoxElement("ACTUAL LY", "Actual LY", dm.sssgMetrics["ACTUAL LY"]));
+        sY.appendChild(createBoxElement("GROWTH SALES LY", "Growth Sales (YoY)", dm.sssgMetrics["GROWTH SALES LY"]));
+        sY.appendChild(createBoxElement("QTY SOLD", "Qty Sold TY", dm.sssgMetrics["QTY SOLD"]));
+        sY.appendChild(createBoxElement("QTY SOLD LY", "Qty Sold LY", dm.sssgMetrics["QTY SOLD LY"]));
+        sY.appendChild(createBoxElement("TRANSAKSI", "Transaksi TY", dm.sssgMetrics["TRANSAKSI"]));
+        sY.appendChild(createBoxElement("TRANSAKSI LY", "Transaksi LY", dm.sssgMetrics["TRANSAKSI LY"]));
+        sY.appendChild(createBoxElement("TRAFIK", "Trafik TY", dm.metrics["TRAFIK"]));
+        sY.appendChild(createBoxElement("TRAFIK LY", "Trafik LY", dm.sssgMetrics["TRAFIK LY"]));
+
+        var uY = document.getElementById('subUptAtvYoY');
+        uY.appendChild(createBoxElement("UPT", "UPT TY", dm.sssgMetrics["UPT"]));
+        uY.appendChild(createBoxElement("UPTLY", "UPT LY", dm.sssgMetrics["UPTLY"]));
+        uY.appendChild(createBoxElement("GROWTH UPT LY", "Growth UPT (YoY)", dm.sssgMetrics["GROWTH UPT LY"]));
+        uY.appendChild(createBoxElement("ATV", "ATV TY", dm.sssgMetrics["ATV"]));
+        uY.appendChild(createBoxElement("ATV LY", "ATV LY", dm.sssgMetrics["ATV LY"]));
+        uY.appendChild(createBoxElement("GROWTH ATV LY", "Growth ATV (YoY)", dm.sssgMetrics["GROWTH ATV LY"]));
+
+        renderSplitCharts(dm.chartData);
+      }
+
+      document.getElementById('areaReport').classList.remove('d-none');
+    }
+
+    function bukaGoogleReview() {
+      let btn = document.getElementById('btnGoogleReview');
+      let reviewUrl = btn ? btn.dataset.url : '';
+      if (reviewUrl && reviewUrl !== '-' && reviewUrl.startsWith('http')) {
+        window.open(reviewUrl, '_blank');
+      } else {
+        alert('Google Review URL not available.');
+      }
+    }
+  </script>
+</body>
+</html>
