@@ -135,6 +135,53 @@
 </head>
 <body>
 
+  <!-- LOGIN OVERLAY / PAGE -->
+<div id="loginWrapper" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 15px;">
+  <div style="background: white; width: 100%; max-width: 420px; padding: 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);">
+    <div class="text-center mb-4">
+      <h3 class="fw-bold text-dark">🔐 LOGIN KONTROL TOKO</h3>
+      <p class="text-muted small">Silakan masuk menggunakan akun Anda</p>
+    </div>
+
+    <!-- Pilihan Metode Login -->
+    <div class="btn-group w-100 mb-4" role="group">
+      <input type="radio" class="btn-check" name="loginMethod" id="methodPass" autocomplete="off" checked onclick="toggleLoginMethod('pass')">
+      <label class="btn btn-outline-primary btn-sm fw-bold" for="methodPass">Password</label>
+
+      <input type="radio" class="btn-check" name="loginMethod" id="methodOtp" autocomplete="off" onclick="toggleLoginMethod('otp')">
+      <label class="btn btn-outline-primary btn-sm fw-bold" for="methodOtp">Email OTP</label>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold small text-secondary">USERNAME / EMAIL</label>
+      <input type="text" id="loginIdentifier" class="form-control form-control-custom" placeholder="Masukkan username atau email">
+    </div>
+
+    <!-- Form Password -->
+    <div id="formSectionPass">
+      <div class="mb-3">
+        <label class="form-label fw-bold small text-secondary">PASSWORD</label>
+        <input type="password" id="loginPassword" class="form-control form-control-custom" placeholder="••••••••">
+      </div>
+      <button type="button" class="btn btn-proses w-100 py-2 shadow" onclick="submitLogin('pass')">MASUK DENGAN PASSWORD</button>
+    </div>
+
+    <!-- Form OTP -->
+    <div id="formSectionOtp" class="d-none">
+      <div class="mb-3">
+        <button type="button" id="btnRequestOtp" class="btn btn-warning btn-sm w-100 fw-bold mb-2" onclick="requestOtpCode()">Kirim Kode OTP ke Email</button>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-bold small text-secondary">KODE OTP (6 DIGIT)</label>
+        <input type="text" id="loginOtp" class="form-control form-control-custom text-center fs-4 tracking-widest" placeholder="000000" maxlength="6">
+      </div>
+      <button type="button" class="btn btn-proses w-100 py-2 shadow" onclick="submitLogin('otp')">VERIFIKASI & MASUK</button>
+    </div>
+
+    <div id="loginAlert" class="mt-3 text-center text-danger small fw-bold"></div>
+  </div>
+</div>
+
   <!-- LOADING OVERLAY -->
   <div id="loadingOverlay">
     <div class="loader-box">
@@ -323,7 +370,7 @@
   <!-- JavaScript Sisi Klien Terintegrasi -->
   <script>
     // URL Endpoint Cloudflare Worker Anda (atau URL Custom Domain Worker)
-    const GAS_URL = "https://script.google.com/macros/s/AKfycby7mwIQiYC8_8ScmpXzOFrjPmfYFiNw-Cl65-Tf4sIcnSYgtjTh4DXAob3zeybs9yk/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyd88g9t79TLPHyNhldavv2jDGyNPjfkrTQZouu9RkNdgR_Vk54PGf_wbM7bGE6VPq6/exec";
 
     let timerInterval; let secondsLeft = 5; let serverResponseData = null; let menuAktif = "home";
 
@@ -703,6 +750,87 @@
         alert('Link Google Review untuk toko ini belum tersedia.');
       }
     }
+
+    function toggleLoginMethod(mode) {
+  if (mode === 'pass') {
+    document.getElementById('formSectionPass').classList.remove('d-none');
+    document.getElementById('formSectionOtp').classList.add('d-none');
+  } else {
+    document.getElementById('formSectionPass').classList.add('d-none');
+    document.getElementById('formSectionOtp').classList.remove('d-none');
+  }
+  document.getElementById('loginAlert').innerText = '';
+}
+
+function requestOtpCode() {
+  const identifier = document.getElementById('loginIdentifier').value.trim();
+  if (!identifier) {
+    document.getElementById('loginAlert').innerText = 'Masukkan Username atau Email terlebih dahulu!';
+    return;
+  }
+  
+  document.getElementById('loginAlert').innerText = 'Mengirim OTP ke email...';
+  const url = `${GAS_URL}?action=login&identifier=${encodeURIComponent(identifier)}&type=REQUEST_OTP`;
+  
+  fetch(url)
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === 'success') {
+        document.getElementById('loginAlert').className = 'mt-3 text-center text-success small fw-bold';
+        document.getElementById('loginAlert').innerText = res.message;
+      } else {
+        document.getElementById('loginAlert').className = 'mt-3 text-center text-danger small fw-bold';
+        document.getElementById('loginAlert').innerText = res.message;
+      }
+    })
+    .catch(err => {
+      document.getElementById('loginAlert').className = 'mt-3 text-center text-danger small fw-bold';
+      document.getElementById('loginAlert').innerText = 'Gagal terhubung ke server.';
+    });
+}
+
+function submitLogin(type) {
+  const identifier = document.getElementById('loginIdentifier').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+  const otp = document.getElementById('loginOtp').value.trim();
+  
+  if (!identifier) {
+    document.getElementById('loginAlert').innerText = 'Username/Email wajib diisi!';
+    return;
+  }
+  
+  let actionType = (type === 'pass') ? 'LOGIN_PASS' : 'LOGIN_OTP';
+  let url = `${GAS_URL}?action=login&identifier=${encodeURIComponent(identifier)}&password=${encodeURIComponent(password)}&otp=${encodeURIComponent(otp)}&type=${actionType}`;
+  
+  document.getElementById('loginAlert').className = 'mt-3 text-center text-muted small fw-bold';
+  document.getElementById('loginAlert').innerText = 'Memverifikasi akses...';
+
+  fetch(url)
+    .then(res => res.json())
+    .then(res => {
+      if (res.status === 'success') {
+        // Login Berhasil -> Sembunyikan form login, tampilkan aplikasi utama
+        document.getElementById('loginWrapper').style.display = 'none';
+        sessionStorage.setItem('loggedUser', res.user);
+      } else {
+        document.getElementById('loginAlert').className = 'mt-3 text-center text-danger small fw-bold';
+        document.getElementById('loginAlert').innerText = res.message;
+      }
+    })
+    .catch(err => {
+      document.getElementById('loginAlert').className = 'mt-3 text-center text-danger small fw-bold';
+      document.getElementById('loginAlert').innerText = 'Terjadi kesalahan sistem: ' + err;
+    });
+}
+
+// Cek sesi login saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+  const activeUser = sessionStorage.getItem('loggedUser');
+  if (activeUser) {
+    document.getElementById('loginWrapper').style.display = 'none';
+  }
+});
+    
   </script>
 </body>
 </html>
