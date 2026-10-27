@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HANDBOOK - Kontrol Toko</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Highcharts -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  
+  <!-- CSS Kustom -->
+  <style>
+    <?!= include('style CSS'); ?>
+  </style>
+</head>
+<body>
+
+  <!-- LOADING OVERLAY -->
+  <div id="loadingOverlay">
+    <div class="loader-box">
+      <div class="spinner-border text-primary mb-3" role="status"></div>
+      <h5 class="fw-bold text-dark">Memuat Data Toko...</h5>
+      <p class="text-muted mb-0">Mohon tunggu <span id="timerCount" class="fw-bold text-primary">5</span> detik</p>
+    </div>
+  </div>
+
+  <div class="container-custom">
+    <!-- Header Banner -->
+    <div class="header-banner">
+      <h2 class="fw-bold mb-1">HANDBOOK KONTROL TOKO</h2>
+      <p class="text-white-50 mb-0">Area Monitoring & Analisis Performa Toko</p>
+    </div>
+
+    <!-- Card Filter & Pilihan Toko -->
+    <div class="card-filter">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label fw-bold text-secondary small">PILIH TOKO</label>
+          <select id="selectToko" class="form-select form-select-custom">
+            <option value="">-- Pilih Toko --</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold text-secondary small">TANGGAL AWAL</label>
+          <input type="date" id="tglAwal" class="form-control form-control-custom">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label fw-bold text-secondary small">TANGGAL AKHIR</label>
+          <input type="date" id="tglAkhir" class="form-control form-control-custom">
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-proses w-100 shadow-sm" onclick="prosesData()">
+            <i class="bi bi-search me-1"></i> PROSES
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigasi Menu Tab -->
+    <div class="nav-tabs-custom" id="navTabsContainer">
+      <a class="nav-link-custom active" id="tab-home" onclick="gantiMenu('home')"><i class="bi bi-house-door me-1"></i> Home</a>
+      <a class="nav-link-custom" id="tab-daily" onclick="gantiMenu('daily')"><i class="bi bi-calendar-day me-1"></i> Daily</a>
+      <a class="nav-link-custom" id="tab-weekly" onclick="gantiMenu('weekly')"><i class="bi bi-calendar-week me-1"></i> Weekly</a>
+      <a class="nav-link-custom" id="tab-monthly" onclick="gantiMenu('monthly')"><i class="bi bi-calendar-month me-1"></i> Monthly</a>
+      <a class="nav-link-custom" id="tab-yearly" onclick="gantiMenu('yearly')"><i class="bi bi-calendar-range me-1"></i> Yearly</a>
+      <a class="nav-link-custom" id="tab-projection" onclick="gantiMenu('projection')"><i class="bi bi-graph-up-arrow me-1"></i> Projection</a>
+      <a class="nav-link-custom" id="tab-profil" onclick="gantiMenu('profil')"><i class="bi bi-shop me-1"></i> Profil Toko</a>
+    </div>
+
+    <!-- Area Konten Utama Laporan -->
+    <div id="areaReport" class="d-none">
+      <div class="alert alert-light border shadow-sm mb-4 d-flex justify-content-between align-items-center">
+        <div>
+          <span class="text-muted small text-uppercase fw-bold">Toko Terpilih:</span>
+          <h4 id="txtNamaToko" class="fw-bold text-dark mb-0">-</h4>
+        </div>
+        <i class="bi bi-building-check text-success fs-2"></i>
+      </div>
+
+      <!-- Memuat Bagian-Bagian Komponen Terpisah -->
+      <div id="blokStatisToko">
+        <?!= include('HOME PROFIL'); ?>
+      </div>
+
+      <div id="blokReportUtama" class="d-none">
+        <?!= include('UTAMA SALES'); ?>
+        <?!= include('UTAMA WOW'); ?>
+        <?!= include('UTAMA MOM'); ?>
+        <?!= include('UTAMA YOY'); ?>
+        <?!= include('UTAMA GRAFIK'); ?>
+      </div>
+
+      <div id="blokProjection" class="d-none">
+        <?!= include('PROJECTION'); ?>
+      </div>
+
+      <div id="blokProfilToko" class="d-none">
+        <?!= include('PROFIL'); ?>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Frontend -->
+  <script>
+    <?!= include('JS SCRIPT'); ?>
+  </script>
+</body>
+</html>
