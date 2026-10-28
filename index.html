@@ -157,6 +157,15 @@
       <input type="text" id="loginIdentifier" class="form-control form-control-custom" placeholder="Masukkan username atau email">
     </div>
 
+    <!-- Tambahkan di dalam form login index.html Anda -->
+<div class="mb-3">
+  <label class="form-label fw-bold small text-secondary">PILIH TAMPILAN (UI THEME)</label>
+  <select id="selectTheme" class="form-select form-control-custom">
+    <option value="default">Default Theme (Standar)</option>
+    <option value="techno">Modern Techno (Cyber-Ops)</option>
+  </select>
+</div>
+
     <!-- Form Password -->
     <div id="formSectionPass">
       <div class="mb-3">
@@ -809,13 +818,14 @@ function submitLogin(type) {
     .then(res => res.json())
     .then(res => {
       if (res.status === 'success') {
-        // Login Berhasil -> Sembunyikan form login, tampilkan aplikasi utama
-        document.getElementById('loginWrapper').style.display = 'none';
-        sessionStorage.setItem('loggedUser', res.user);
-      } else {
-        document.getElementById('loginAlert').className = 'mt-3 text-center text-danger small fw-bold';
-        document.getElementById('loginAlert').innerText = res.message;
-      }
+  sessionStorage.setItem('loggedUser', res.user);
+  const selectedTheme = document.getElementById('selectTheme').value;
+  if (selectedTheme === 'techno') {
+    window.location.href = 'techno.html';
+  } else {
+    document.getElementById('loginWrapper').style.display = 'none';
+  }
+}
     })
     .catch(err => {
       document.getElementById('loginAlert').className = 'mt-3 text-center text-danger small fw-bold';
